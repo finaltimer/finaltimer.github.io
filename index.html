@@ -18,6 +18,17 @@
 			font-family: Arial;
 			text-align: center;
 		}
+        #startButton {
+            		position: fixed;
+			bottom: 20px;
+			right: 20px;
+			font-size: 20px;
+			padding: 10px 20px;
+			background-color: white;
+			color: black;
+			border: none;
+			cursor: pointer;
+        }
 	</style>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
@@ -32,14 +43,28 @@
 			// display initial time
 			$("#timer").text("04:00");
 
+			// start or reset timer on button click
+			$("#startButton").click(function() {
+				if (!timerRunning) {
+					timerRunning = true;
+					countdown = setInterval(updateTimer, 1000);
+                    $("#startButton").text("Reset");
+				} else {
+					resetTimer();
+                    $("#startButton").text("Start");
+				}
+			});
+
 			// start or reset timer on space bar press
 			$(document).keydown(function(event) {
 				if (event.keyCode == 32) {
 					if (!timerRunning) {
 						timerRunning = true;
 						countdown = setInterval(updateTimer, 1000);
+                        $("#startButton").text("Reset");
 					} else {
 						resetTimer();
+                        $("#startButton").text("Start");
 					}
 				}
 			});
@@ -83,6 +108,6 @@
 </head>
 <body>
 	<div id="timer"></div>
+    <button id="startButton">Start</button>
 </body>
 </html>
-
