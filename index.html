@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Countdown Timer</title>
+	<style>
+		body {
+			background-color: black;
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+		}
+		#timer {
+			font-size: 30vw;
+			font-family: Arial;
+			text-align: center;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			var countdown;
+			var timerRunning = false;
+			var audio1 = new Audio("beep-1.mp3");
+			var audio2 = new Audio("countdown.mp3");
+			var startMinutes = 4;
+			var time = startMinutes * 60;
+
+			// display initial time
+			$("#timer").text("04:00");
+
+			// start or reset timer on space bar press
+			$(document).keydown(function(event) {
+				if (event.keyCode == 32) {
+					if (!timerRunning) {
+						timerRunning = true;
+						countdown = setInterval(updateTimer, 1000);
+					} else {
+						resetTimer();
+					}
+				}
+			});
+
+			// update timer every second
+			function updateTimer() {
+				if (time == startMinutes * 60) {
+					audio1.play();
+				}
+
+				var minutes = Math.floor(time / 60);
+				var seconds = time % 60;
+
+				if (time <= 60 && time > 59) {
+					audio1.play();
+					
+				}
+
+				if (time <= 5 && time > 0) {
+					audio2.play();
+				}
+
+				if (time < 0) {
+					clearInterval(countdown);
+					$("#timer").text("00:00");
+				} else {
+					time--;
+					$("#timer").text(("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2));
+				}
+			}
+
+			// reset timer and display initial time
+			function resetTimer() {
+				clearInterval(countdown);
+				timerRunning = false;
+				time = startMinutes * 60;
+				$("#timer").text("04:00");
+			}
+		});
+	</script>
+</head>
+<body>
+	<div id="timer"></div>
+</body>
+</html>
+
